@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VGCI FG Inventory</title>
+<meta name="theme-color" content="#1f6b47">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root{--green:#1f6b47}
+  html,body{margin:0;height:100%;background:#fff;overflow:hidden;font-family:Arial,sans-serif}
+  #app{position:fixed;inset:0;width:100%;height:100%;border:0;display:block}
+  #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#fff;z-index:2;transition:opacity .3s}
+  #splash img{width:220px;max-width:60vw}
+  #splash .bar{width:160px;height:4px;border-radius:4px;background:#e4eee8;overflow:hidden}
+  #splash .bar i{display:block;width:40%;height:100%;background:var(--green);animation:load 1.1s ease-in-out infinite}
+  @keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+  #splash p{margin:0;color:#66736b;font-size:14px}
+  #offline{display:none;position:fixed;left:0;right:0;top:0;padding:10px 14px;background:#a73535;color:#fff;font-size:14px;text-align:center;z-index:3}
+</style>
+</head>
+<body>
+<div id="offline">No internet connection. The app will reload when you are back online.</div>
+<div id="splash"><img src="icon-512.png" alt="VGCI"><div class="bar"><i></i></div><p>Loading VGCI Finished Goods Inventory…</p></div>
+<iframe id="app" title="VGCI FG Inventory" allow="clipboard-read; clipboard-write; camera; fullscreen"></iframe>
+<script>
+  // ===== The only setting: your Apps Script web app link (Deploy > Manage deployments) =====
+  const APP_URL = 'https://script.google.com/macros/s/AKfycbxLtJyGdghYK8MAgrlspCx_iA6Io0IEuYnCpmXIf7rYzEDo4fM-DH9DHu6DzqqUc7Jr/exec';
+
+  const frame = document.getElementById('app');
+  const splash = document.getElementById('splash');
+  // Pass any ?parameters (e.g. QR traceability links) through to the app.
+  frame.src = APP_URL + (location.search || '');
+  frame.addEventListener('load', () => { splash.style.opacity = '0'; setTimeout(() => splash.remove(), 350); });
+  setTimeout(() => { if (document.body.contains(splash)) { splash.style.opacity = '0'; setTimeout(() => splash.remove(), 350); } }, 15000);
+
+  const off = document.getElementById('offline');
+  addEventListener('offline', () => off.style.display = 'block');
+  addEventListener('online',  () => { off.style.display = 'none'; frame.src = frame.src; });
+  if (!navigator.onLine) off.style.display = 'block';
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>

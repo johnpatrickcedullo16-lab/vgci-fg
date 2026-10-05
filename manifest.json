@@ -1,0 +1,17 @@
+{
+  "name": "VGCI Finished Goods Inventory",
+  "short_name": "VGCI FG",
+  "description": "Village Gourmet Company Inc. - Finished Goods Inventory Management System",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone"],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#1f6b47",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
